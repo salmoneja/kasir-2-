@@ -1,0 +1,3010 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Sistem Manajemen UMKM</title>
+    <script>
+      try {
+        var _t = localStorage.getItem("umkm_theme");
+        if (_t === "dark" || (!_t && matchMedia("(prefers-color-scheme: dark)").matches))
+          document.documentElement.classList.add("dark");
+      } catch (e) {}
+    </script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- React & ReactDOM CDN -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <!-- Babel Standalone for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Plus Jakarta Sans"', "sans-serif"],
+            },
+            colors: {
+              brand: {
+                50: "#f0f3fa",
+                100: "#dbe2f1",
+                200: "#bbc7e4",
+                300: "#91a4d3",
+                400: "#697dc0",
+                500: "#4e5fae",
+                600: "#3e4b95",
+                700: "#343d7c",
+                800: "#2E3A68", // Requested Theme Color
+                900: "#262f55",
+                950: "#191f3a",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
+      }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f0f3fa;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #2e3a68;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #191f3a;
+      }
+
+      /* ===== DARK MODE ===== */
+      html.dark { color-scheme: dark; }
+      .dark body { background-color: #0b1220 !important; color: #e2e8f0 !important; }
+      .dark input, .dark select, .dark textarea { color: #e2e8f0; }
+      .dark ::placeholder { color: #64748b; }
+      .dark .bg-white { background-color: #162033 !important; }
+      .dark .bg-white\/90 { background-color: rgba(22,32,51,.9) !important; }
+      .dark .bg-slate-50 { background-color: #0f172a !important; }
+      .dark .bg-slate-100 { background-color: #1e293b !important; }
+      .dark .hover\:bg-slate-200:hover { background-color: #334155 !important; }
+      .dark .bg-brand-50 { background-color: #1e2a4a !important; }
+      .dark .hover\:bg-brand-100:hover { background-color: #2a3a6a !important; }
+      .dark .bg-emerald-50 { background-color: rgba(16,185,129,.12) !important; }
+      .dark .bg-emerald-100 { background-color: rgba(16,185,129,.2) !important; }
+      .dark .bg-amber-50 { background-color: rgba(245,158,11,.12) !important; }
+      .dark .bg-rose-50 { background-color: rgba(244,63,94,.12) !important; }
+      .dark .bg-rose-100 { background-color: rgba(244,63,94,.2) !important; }
+      .dark .bg-blue-50\/50 { background-color: rgba(59,130,246,.1) !important; }
+      .dark .text-slate-900, .dark .text-slate-800 { color: #f1f5f9 !important; }
+      .dark .text-slate-700 { color: #e2e8f0 !important; }
+      .dark .text-slate-600 { color: #cbd5e1 !important; }
+      .dark .text-slate-500, .dark .text-slate-400 { color: #94a3b8 !important; }
+      .dark .text-brand-800 { color: #a5b4fc !important; }
+      .dark .bg-brand-800 .text-brand-800, .dark .bg-brand-800.text-brand-800 { color: #fff !important; }
+      .dark .text-emerald-600 { color: #34d399 !important; }
+      .dark .text-emerald-700, .dark .text-emerald-800 { color: #6ee7b7 !important; }
+      .dark .text-rose-600 { color: #fb7185 !important; }
+      .dark .text-rose-700 { color: #fda4af !important; }
+      .dark .text-rose-900 { color: #fecdd3 !important; }
+      .dark .text-amber-600 { color: #fbbf24 !important; }
+      .dark .text-amber-800 { color: #fcd34d !important; }
+      .dark .border-slate-200 { border-color: #2b3a55 !important; }
+      .dark .border-slate-100 { border-color: #1f2c44 !important; }
+      .dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) { border-color: #2b3a55 !important; }
+      .dark .border-brand-200 { border-color: #3e4b95 !important; }
+      .dark .border-emerald-200 { border-color: #1f5c46 !important; }
+      .dark .border-rose-200 { border-color: #6b2a38 !important; }
+      .dark .border-amber-200 { border-color: #6b4a12 !important; }
+      .dark .border-blue-100 { border-color: #1e3a5f !important; }
+      .dark .ring-white { --tw-ring-color: #162033 !important; }
+      .dark ::-webkit-scrollbar-track { background: #162033; }
+      .dark ::-webkit-scrollbar-thumb { background: #475569; }
+    </style>
+  </head>
+  <body
+    class="bg-slate-50 min-h-screen text-slate-800 antialiased selection:bg-brand-200 selection:text-brand-900"
+  >
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect, useMemo, useRef } = React;
+
+      // Initial Data
+      const INITIAL_PROFILE = {
+        name: "Blue Brew & Snacks",
+        tagline: "Gen Z Coffee & Snack Corner",
+        logo: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=300&q=80",
+      };
+
+      const INITIAL_MENUS = [
+        {
+          id: 1,
+          name: "Kopi Susu Blue Aren",
+          category: "Kopi",
+          hpp: 9000,
+          price: 18000,
+          stock: 45,
+          minStock: 10,
+          image:
+            "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80",
+          recipe: "Espresso, Milk, Gula Aren",
+        },
+        {
+          id: 2,
+          name: "Iced Americano Blue",
+          category: "Kopi",
+          hpp: 6000,
+          price: 15000,
+          stock: 30,
+          minStock: 8,
+          image:
+            "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80",
+          recipe: "Double Shot Espresso, Water, Ice",
+        },
+        {
+          id: 3,
+          name: "Croissant Butter",
+          category: "Snack",
+          hpp: 11000,
+          price: 20000,
+          stock: 12,
+          minStock: 5,
+          image:
+            "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80",
+          recipe: "Butter Croissant",
+        },
+      ];
+
+      const INITIAL_TRANSACTIONS = [
+        {
+          id: "TRX-1001",
+          date: new Date(Date.now() - 3600000 * 2).toISOString(),
+          items: [
+            {
+              id: 1,
+              name: "Kopi Susu Blue Aren",
+              price: 18000,
+              hpp: 9000,
+              qty: 2,
+            },
+          ],
+          discountType: "percent",
+          discountValue: 10,
+          discountAmount: 3600,
+          subtotal: 36000,
+          total: 32400,
+          cashPaid: 50000,
+          changePaid: 17600,
+          paymentMethod: "Tunai",
+        },
+      ];
+
+      const INITIAL_HPP = {
+        bahan: [
+          { id: "kopi", nama: "Biji kopi", satuan: "g", harga: 200000, ongkir: 0, isi: 1000, yield: 95 },
+          { id: "susu", nama: "Susu UHT", satuan: "ml", harga: 17000, ongkir: 0, isi: 1000, yield: 95 },
+          { id: "gula", nama: "Gula aren", satuan: "g", harga: 30000, ongkir: 0, isi: 1000, yield: 100 },
+          { id: "es", nama: "Es batu", satuan: "g", harga: 15000, ongkir: 0, isi: 20000, yield: 100 },
+          { id: "cup", nama: "Cup + tutup + sedotan", satuan: "pcs", harga: 1200, ongkir: 0, isi: 1, yield: 100 },
+          { id: "crois", nama: "Croissant (beli jadi)", satuan: "pcs", harga: 8500, ongkir: 0, isi: 1, yield: 100 },
+          { id: "box", nama: "Box + plastik", satuan: "pcs", harga: 900, ongkir: 0, isi: 1, yield: 100 },
+        ],
+        resep: [
+          { id: "r_sirup", nama: "Sirup gula aren (batch)", batch: true, hasil: 1000, unit: "ml", menuId: null, items: [{ ref: "b:gula", qty: 600 }] },
+          { id: "r_1", nama: "Kopi Susu Blue Aren", batch: false, hasil: 1, unit: "porsi", menuId: "1", items: [{ ref: "b:kopi", qty: 18 }, { ref: "b:susu", qty: 120 }, { ref: "r:r_sirup", qty: 15 }, { ref: "b:es", qty: 80 }, { ref: "b:cup", qty: 1 }] },
+          { id: "r_2", nama: "Iced Americano Blue", batch: false, hasil: 1, unit: "porsi", menuId: "2", items: [{ ref: "b:kopi", qty: 18 }, { ref: "b:es", qty: 100 }, { ref: "b:cup", qty: 1 }] },
+          { id: "r_3", nama: "Croissant Butter", batch: false, hasil: 1, unit: "porsi", menuId: "3", items: [{ ref: "b:crois", qty: 1 }, { ref: "b:box", qty: 1 }] },
+        ],
+        biaya: [
+          { nama: "Sewa lapak", v: 1500000 },
+          { nama: "Gaji karyawan", v: 3000000 },
+          { nama: "Listrik, gas, air", v: 700000 },
+          { nama: "Internet & lain-lain", v: 300000 },
+        ],
+        alat: [
+          { nama: "Mesin espresso", harga: 12000000, sisa: 2000000, umur: 36 },
+          { nama: "Grinder", harga: 3000000, sisa: 500000, umur: 36 },
+        ],
+        vol: 3000,
+        fc: 33,
+        fee: 20,
+        qris: 0.7,
+      };
+      // >>> Tempel URL Web App Apps Script (berakhiran /exec) di sini SEKALI saja,
+      // supaya semua browser/perangkat otomatis terhubung ke data yang sama.
+      const DEFAULT_SCRIPT_URL = "";
+      const DEFAULT_API_KEY = "";
+      (() => {
+        const qp = new URLSearchParams(location.search);
+        if (qp.get("script")) localStorage.setItem("umkm_script_url", qp.get("script"));
+        if (qp.get("key")) localStorage.setItem("umkm_api_key", qp.get("key"));
+      })();
+      const getApiKey = () => localStorage.getItem("umkm_api_key") || DEFAULT_API_KEY;
+      // Batas reset riwayat: jam 19.00 terakhir yang sudah lewat
+      const RESET_HOUR = 19;
+      const boundaryMs = (now) => {
+        const d = new Date(now);
+        const b = new Date(d.getFullYear(), d.getMonth(), d.getDate(), RESET_HOUR, 0, 0, 0);
+        if (d < b) b.setDate(b.getDate() - 1);
+        return b.getTime();
+      };
+      const newTrxId = () => {
+        const n = new Date();
+        const p = (x) => String(x).padStart(2, "0");
+        const rnd = Math.random().toString(36).slice(2, 6).toUpperCase();
+        return `TRX-${String(n.getFullYear()).slice(2)}${p(n.getMonth() + 1)}${p(n.getDate())}-${p(n.getHours())}${p(n.getMinutes())}${p(n.getSeconds())}-${rnd}`;
+      };
+
+      function App() {
+        const [activeTab, setActiveTab] = useState("dashboard");
+
+        const [profile, setProfile] = useState(() => {
+          const saved = localStorage.getItem("umkm_profile");
+          return saved ? JSON.parse(saved) : INITIAL_PROFILE;
+        });
+        const [scriptUrl, setScriptUrl] = useState(() => {
+          return localStorage.getItem("umkm_script_url") || DEFAULT_SCRIPT_URL;
+        });
+
+        const [menus, setMenus] = useState(() => {
+          const saved = localStorage.getItem("umkm_menus");
+          return saved ? JSON.parse(saved) : INITIAL_MENUS;
+        });
+        const [transactions, setTransactions] = useState(() => {
+          const saved = localStorage.getItem("umkm_transactions");
+          return saved ? JSON.parse(saved) : INITIAL_TRANSACTIONS;
+        });
+        const [hpp, setHpp] = useState(() => {
+          try {
+            const saved = localStorage.getItem("umkm_hpp");
+            return saved ? JSON.parse(saved) : INITIAL_HPP;
+          } catch (e) {
+            return INITIAL_HPP;
+          }
+        });
+        const [toast, setToast] = useState(null);
+        const [isSyncing, setIsSyncing] = useState(false);
+        const [dark, setDark] = useState(() => document.documentElement.classList.contains("dark"));
+        useEffect(() => {
+          document.documentElement.classList.toggle("dark", dark);
+          localStorage.setItem("umkm_theme", dark ? "dark" : "light");
+        }, [dark]);
+
+        // ---- sinkronisasi multi-tab / multi-device ----
+        const R = useRef({});
+        R.current = { ...R.current, profile, menus, hpp, transactions, scriptUrl };
+        const readJson = (k, d) => {
+          try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; }
+        };
+        const tsRef = useRef(readJson("umkm_ts", {}));
+        const serverTsRef = useRef(readJson("umkm_server_ts", {}));
+        const syncedRef = useRef(new Set(readJson("umkm_synced", [])));
+        const remoteRef = useRef({});
+        const mountedRef = useRef({});
+        const syncingRef = useRef(false);
+        const verRef = useRef(null);
+        const warnedRef = useRef(false);
+        const lastResetRef = useRef(
+          (() => {
+            const v = Number(localStorage.getItem("umkm_last_reset"));
+            if (v) return v;
+            const b = boundaryMs(new Date());
+            localStorage.setItem("umkm_last_reset", String(b));
+            return b;
+          })(),
+        );
+        const SETTERS = { profile: setProfile, menus: setMenus, hpp: setHpp };
+        const persistMeta = () => {
+          localStorage.setItem("umkm_ts", JSON.stringify(tsRef.current));
+          localStorage.setItem("umkm_server_ts", JSON.stringify(serverTsRef.current));
+        };
+        const saveSynced = () => localStorage.setItem("umkm_synced", JSON.stringify([...syncedRef.current]));
+        const applyRemote = (k, value) => {
+          if (JSON.stringify(R.current[k]) === JSON.stringify(value)) return;
+          remoteRef.current[k] = true;
+          SETTERS[k](value);
+        };
+        const touch = (k) => {
+          if (!mountedRef.current[k]) { mountedRef.current[k] = true; return; }
+          if (remoteRef.current[k]) { remoteRef.current[k] = false; return; }
+          tsRef.current = { ...tsRef.current, [k]: Date.now() };
+          persistMeta();
+        };
+
+        useEffect(() => {
+          localStorage.setItem("umkm_profile", JSON.stringify(profile));
+          touch("profile");
+        }, [profile]);
+
+        useEffect(() => {
+          localStorage.setItem("umkm_script_url", scriptUrl);
+        }, [scriptUrl]);
+
+        useEffect(() => {
+          localStorage.setItem("umkm_menus", JSON.stringify(menus));
+          touch("menus");
+        }, [menus]);
+
+        useEffect(() => {
+          localStorage.setItem(
+            "umkm_transactions",
+            JSON.stringify(transactions),
+          );
+        }, [transactions]);
+
+        useEffect(() => {
+          localStorage.setItem("umkm_hpp", JSON.stringify(hpp));
+          touch("hpp");
+        }, [hpp]);
+
+        const callApi = async (body) => {
+          const url = (R.current.scriptUrl || "").trim();
+          if (!/^https:\/\/script\.google\.com\/(macros|a\/macros\/[^/]+)\/s\/[^/]+\/exec\/?$/.test(url))
+            throw new Error("URL Web App tidak valid. Harus seperti https://script.google.com/macros/s/.../exec (berakhiran /exec, bukan /dev atau alamat editor).");
+          const ctrl = new AbortController();
+          const timer = setTimeout(() => ctrl.abort(), 30000);
+          let text;
+          try {
+            const res = await fetch(url, {
+              method: "POST",
+              headers: { "Content-Type": "text/plain;charset=utf-8" },
+              body: JSON.stringify({ ...body, apiKey: getApiKey() }),
+              signal: ctrl.signal,
+            });
+            text = await res.text();
+          } catch (e) {
+            if (e.name === "AbortError") throw new Error("Apps Script tidak merespons (lebih dari 30 detik).");
+            throw new Error("Tidak bisa menjangkau Apps Script. Periksa: URL /exec benar, deployment diatur akses 'Anyone', koneksi internet, dan matikan adblock/VPN.");
+          } finally {
+            clearTimeout(timer);
+          }
+          let json;
+          try {
+            json = JSON.parse(text);
+          } catch (e) {
+            if (/<html|<!doctype/i.test(text))
+              throw new Error("Server mengembalikan halaman HTML, bukan data. Biasanya: (a) akses deployment belum 'Anyone', (b) izin belum diberikan (jalankan setup() lalu Authorize), atau (c) error di script: cek menu Executions di Apps Script.");
+            throw new Error("Respon server bukan JSON: " + text.slice(0, 80));
+          }
+          if (!json.ok) {
+            if (/Aksi tidak dikenal/.test(json.error || ""))
+              throw new Error("Code.gs di server masih versi lama. Tempel Code.gs terbaru lalu Deploy > New deployment.");
+            throw new Error(json.error || "Respon tidak valid");
+          }
+          return json;
+        };
+
+        const showToast = (message, type = "success") => {
+          setToast({ message, type });
+          setTimeout(() => setToast(null), type === "error" ? 10000 : 3500);
+        };
+
+        const SAMPLE_ID = "TRX-1001";
+        const hasLocalChanges = () => {
+          const cur = R.current;
+          if (cur.transactions.some((t) => t.id !== SAMPLE_ID && !syncedRef.current.has(t.id))) return true;
+          return ["profile", "menus", "hpp"].some(
+            (k) => serverTsRef.current[k] === undefined || (tsRef.current[k] || 0) > (serverTsRef.current[k] || 0),
+          );
+        };
+
+        const syncNow = async (opts = {}) => {
+          if (!R.current.scriptUrl) {
+            if (opts.manual) showToast("Harap atur URL Web App Google Sheets di tab Profil terlebih dahulu!", "error");
+            return false;
+          }
+          if (syncingRef.current) {
+            if (opts.manual) showToast("Sinkronisasi sedang berjalan, coba lagi sebentar.", "error");
+            return false;
+          }
+          syncingRef.current = true;
+          if (opts.manual) setIsSyncing(true);
+          try {
+            const cur = R.current;
+            const since = boundaryMs(new Date());
+            const pending = cur.transactions.filter((t) => t.id !== SAMPLE_ID && !syncedRef.current.has(t.id));
+            const sections = {};
+            ["profile", "menus", "hpp"].forEach((k) => {
+              const known = serverTsRef.current[k] !== undefined && !opts.force;
+              const ts = known ? tsRef.current[k] || 0 : 0;
+              sections[k] = { ts };
+              if (known && ts > (serverTsRef.current[k] || 0)) sections[k].data = cur[k];
+            });
+            const json = await callApi({ action: "sync", since, tx: pending, sections });
+            (json.accepted || []).forEach((id) => syncedRef.current.add(id));
+            let seeded = false;
+            Object.keys(json.sections || {}).forEach((k) => {
+              const sec = json.sections[k];
+              serverTsRef.current = { ...serverTsRef.current, [k]: sec.ts };
+              if (sec.data !== undefined && sec.data !== null) {
+                applyRemote(k, sec.data);
+                tsRef.current = { ...tsRef.current, [k]: sec.ts };
+              } else if (!sec.ts && !tsRef.current[k]) {
+                tsRef.current = { ...tsRef.current, [k]: Date.now() };
+                seeded = true;
+              }
+            });
+            persistMeta();
+            const remote = json.transactions || [];
+            remote.forEach((t) => syncedRef.current.add(t.id));
+            saveSynced();
+            const have = new Set(R.current.transactions.map((t) => t.id));
+            const fresh = remote.filter((t) => !have.has(t.id));
+            if (fresh.length)
+              setTransactions((prev) => {
+                const ids = new Set(prev.map((t) => t.id));
+                return [...fresh.filter((t) => !ids.has(t.id)), ...prev].sort((x, y) => new Date(y.date) - new Date(x.date));
+              });
+            verRef.current = json.ver;
+            if (opts.manual)
+              showToast(
+                `Sinkron selesai: ${json.added || 0} transaksi baru` +
+                  (json.skipped ? `, ${json.skipped} duplikat dilewati (tidak ditulis ulang)` : ""),
+              );
+            if (seeded && !opts.again) {
+              syncingRef.current = false;
+              return await syncNow({ ...opts, manual: false, again: true });
+            }
+            return true;
+          } catch (err) {
+            if (opts.manual) showToast("Gagal sinkronisasi: " + err.message, "error");
+            return false;
+          } finally {
+            syncingRef.current = false;
+            if (opts.manual) setIsSyncing(false);
+          }
+        };
+
+        // Reset riwayat transaksi setiap jam 19.00 (arsip tetap di Google Sheets)
+        const checkReset = async () => {
+          const boundary = boundaryMs(new Date());
+          if (lastResetRef.current >= boundary) return;
+          const old = R.current.transactions.filter((t) => new Date(t.date).getTime() < boundary);
+          if (old.length) {
+            if (!R.current.scriptUrl) {
+              if (!warnedRef.current) {
+                warnedRef.current = true;
+                showToast("Reset jam 19.00 ditunda: atur URL Google Sheets dulu agar riwayat lama tidak hilang.", "error");
+              }
+              return;
+            }
+            const ok = await syncNow({ silent: true });
+            if (!ok || old.some((t) => t.id !== SAMPLE_ID && !syncedRef.current.has(t.id))) return;
+            setTransactions((ts) => ts.filter((t) => new Date(t.date).getTime() >= boundary));
+            showToast("Riwayat transaksi direset (jam 19.00). Arsip lengkap ada di Google Sheets.");
+          }
+          lastResetRef.current = boundary;
+          localStorage.setItem("umkm_last_reset", String(boundary));
+        };
+
+        const testConnection = async () => {
+          if (!R.current.scriptUrl) { showToast("Isi dan simpan URL Web App dulu di kolom di atas.", "error"); return; }
+          setIsSyncing(true);
+          try {
+            await callApi({ action: "ping" });
+            await callApi({ action: "ver" });
+            showToast("Koneksi OK: URL, API key, dan versi Code.gs sesuai ✔");
+          } catch (err) {
+            showToast("Tes gagal: " + err.message, "error");
+          } finally {
+            setIsSyncing(false);
+          }
+        };
+        const syncToSpreadsheet = () => syncNow({ manual: true });
+        const loadFromSpreadsheet = async () => {
+          if (!confirm("Profil, menu, dan data HPP di perangkat ini akan diganti dengan versi di Google Sheets. Lanjutkan?")) return;
+          await syncNow({ manual: true, force: true });
+        };
+        Object.assign(R.current, { callApi, syncNow, checkReset, hasLocalChanges });
+
+        // polling ringan tiap 20 dtk: cek versi dulu, tarik data penuh hanya bila ada perubahan
+        useEffect(() => {
+          const tick = async () => {
+            const r = R.current;
+            if (document.hidden) {
+              if (r.scriptUrl && r.hasLocalChanges()) await r.syncNow({ silent: true });
+              return;
+            }
+            if (r.scriptUrl) {
+              if (r.hasLocalChanges()) await r.syncNow({ silent: true });
+              else {
+                try {
+                  const j = await r.callApi({ action: "ver" });
+                  if (j.ver !== verRef.current) await r.syncNow({ silent: true });
+                } catch (e) {}
+              }
+            }
+            await r.checkReset();
+          };
+          tick();
+          const iv = setInterval(tick, 20000);
+          const onVis = () => { if (!document.hidden) tick(); };
+          document.addEventListener("visibilitychange", onVis);
+          window.addEventListener("focus", onVis);
+          return () => {
+            clearInterval(iv);
+            document.removeEventListener("visibilitychange", onVis);
+            window.removeEventListener("focus", onVis);
+          };
+        }, []);
+
+        // kirim perubahan lokal segera (debounce 2 dtk)
+        useEffect(() => {
+          const t = setTimeout(() => {
+            const r = R.current;
+            if (r.scriptUrl && r.hasLocalChanges()) r.syncNow({ silent: true });
+          }, 2000);
+          return () => clearTimeout(t);
+        }, [transactions, menus, profile, hpp, scriptUrl]);
+
+        // tab lain di browser yang sama
+        useEffect(() => {
+          const onStorage = (e) => {
+            if (!e.key || !e.key.startsWith("umkm_") || e.newValue == null) return;
+            try {
+              if (e.key === "umkm_script_url") return setScriptUrl(e.newValue);
+              if (e.key === "umkm_last_reset") { lastResetRef.current = Number(e.newValue) || 0; return; }
+              const v = JSON.parse(e.newValue);
+              if (e.key === "umkm_menus") applyRemote("menus", v);
+              else if (e.key === "umkm_profile") applyRemote("profile", v);
+              else if (e.key === "umkm_hpp") applyRemote("hpp", v);
+              else if (e.key === "umkm_transactions") setTransactions(v);
+              else if (e.key === "umkm_ts") tsRef.current = v;
+              else if (e.key === "umkm_server_ts") serverTsRef.current = v;
+              else if (e.key === "umkm_synced") syncedRef.current = new Set(v);
+            } catch (err) {}
+          };
+          window.addEventListener("storage", onStorage);
+          return () => window.removeEventListener("storage", onStorage);
+        }, []);
+
+        return (
+          <div className="min-h-screen flex flex-col bg-slate-50">
+            {/* Toast Notification */}
+            {toast && (
+              <div className="fixed top-5 right-5 z-50 animate-bounce">
+                <div
+                  className={`px-5 py-3 rounded-2xl shadow-xl text-white font-medium flex items-center gap-3 ${
+                    toast.type === "error" ? "bg-rose-600" : "bg-brand-800"
+                  }`}
+                >
+                  <span>{toast.type === "error" ? "⚠️" : "✨"}</span>
+                  <span>{toast.message}</span>
+                </div>
+              </div>
+            )}
+
+            {/* Navigation Header */}
+            <header className="bg-white sticky top-0 z-40 border-b border-slate-200 shadow-sm">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between h-20 items-center">
+                  {/* Brand Logo */}
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={profile.logo}
+                      alt={profile.name}
+                      className="w-12 h-12 rounded-2xl object-cover shadow-md ring-2 ring-brand-800"
+                      onError={(e) => {
+                        e.target.src =
+                          "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=300&q=80";
+                      }}
+                    />
+                    <div>
+                      <h1 className="text-xl font-extrabold tracking-tight text-brand-800">
+                        {profile.name}
+                      </h1>
+                      <p className="text-xs font-medium text-slate-500">
+                        {profile.tagline}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Desktop Navigation Tabs */}
+                  <nav className="hidden md:flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200">
+                    <button
+                      onClick={() => setActiveTab("dashboard")}
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
+                        activeTab === "dashboard"
+                          ? "bg-brand-800 text-white shadow-md"
+                          : "text-slate-700 hover:bg-slate-200"
+                      }`}
+                    >
+                      📊 Dashboard
+                    </button>
+                    <button
+                      onClick={() => setActiveTab("menu")}
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 relative ${
+                        activeTab === "menu"
+                          ? "bg-brand-800 text-white shadow-md"
+                          : "text-slate-700 hover:bg-slate-200"
+                      }`}
+                    >
+                      ☕ Menu & Stok
+                      {menus.some((m) => m.stock <= m.minStock) && (
+                        <span className="absolute -top-1 -right-1 w-3 h-3 bg-rose-500 rounded-full ring-2 ring-white animate-pulse"></span>
+                      )}
+                    </button>
+                    <button
+                      onClick={() => setActiveTab("pos")}
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
+                        activeTab === "pos"
+                          ? "bg-brand-800 text-white shadow-md"
+                          : "text-slate-700 hover:bg-slate-200"
+                      }`}
+                    >
+                      🛒 Kasir (POS)
+                    </button>
+                    <button
+                      onClick={() => setActiveTab("hpp")}
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
+                        activeTab === "hpp"
+                          ? "bg-brand-800 text-white shadow-md"
+                          : "text-slate-700 hover:bg-slate-200"
+                      }`}
+                    >
+                      🧮 HPP
+                    </button>
+                    <button
+                      onClick={() => setActiveTab("profile")}
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
+                        activeTab === "profile"
+                          ? "bg-brand-800 text-white shadow-md"
+                          : "text-slate-700 hover:bg-slate-200"
+                      }`}
+                    >
+                      ⚙️ Profil & Spreadsheet
+                    </button>
+                  </nav>
+
+                  <button
+                    onClick={() => setDark((d) => !d)}
+                    title={dark ? "Mode terang" : "Mode gelap"}
+                    className="flex items-center justify-center w-10 h-10 rounded-2xl border border-slate-200 bg-slate-50 text-lg hover:bg-slate-100 transition-all"
+                  >
+                    {dark ? "☀️" : "🌙"}
+                  </button>
+
+                  {/* Sync Button */}
+                  <button
+                    onClick={syncToSpreadsheet}
+                    disabled={isSyncing}
+                    className="hidden sm:flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-2xl transition-all shadow-sm"
+                  >
+                    <span>
+                      {isSyncing ? "⏳ Syncing..." : "📊 Sync Spreadsheet"}
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Mobile Navigation Bar */}
+              <div className="md:hidden flex border-t border-slate-200 bg-white">
+                <button
+                  onClick={() => setActiveTab("dashboard")}
+                  className={`flex-1 py-3 text-center text-xs font-bold transition-all ${
+                    activeTab === "dashboard"
+                      ? "bg-brand-800 text-white"
+                      : "text-slate-600"
+                  }`}
+                >
+                  📊 Stats
+                </button>
+                <button
+                  onClick={() => setActiveTab("menu")}
+                  className={`flex-1 py-3 text-center text-xs font-bold border-x border-slate-200 transition-all relative ${
+                    activeTab === "menu"
+                      ? "bg-brand-800 text-white"
+                      : "text-slate-600"
+                  }`}
+                >
+                  ☕ Menu
+                </button>
+                <button
+                  onClick={() => setActiveTab("pos")}
+                  className={`flex-1 py-3 text-center text-xs font-bold transition-all ${
+                    activeTab === "pos"
+                      ? "bg-brand-800 text-white"
+                      : "text-slate-600"
+                  }`}
+                >
+                  🛒 Kasir
+                </button>
+                <button
+                  onClick={() => setActiveTab("hpp")}
+                  className={`flex-1 py-3 text-center text-xs font-bold transition-all border-l border-slate-200 ${
+                    activeTab === "hpp"
+                      ? "bg-brand-800 text-white"
+                      : "text-slate-600"
+                  }`}
+                >
+                  🧮 HPP
+                </button>
+                <button
+                  onClick={() => setActiveTab("profile")}
+                  className={`flex-1 py-3 text-center text-xs font-bold transition-all border-l border-slate-200 ${
+                    activeTab === "profile"
+                      ? "bg-brand-800 text-white"
+                      : "text-slate-600"
+                  }`}
+                >
+                  ⚙️ Profil
+                </button>
+              </div>
+            </header>
+
+            {/* Main Content Body */}
+            <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              {activeTab === "dashboard" && (
+                <DashboardTab
+                  menus={menus}
+                  transactions={transactions}
+                  profile={profile}
+                />
+              )}
+              {activeTab === "menu" && (
+                <MenuTab
+                  menus={menus}
+                  setMenus={setMenus}
+                  showToast={showToast}
+                />
+              )}
+              {activeTab === "pos" && (
+                <PosTab
+                  menus={menus}
+                  setMenus={setMenus}
+                  transactions={transactions}
+                  setTransactions={setTransactions}
+                  showToast={showToast}
+                />
+              )}
+              {activeTab === "hpp" && (
+                <HppTab
+                  menus={menus}
+                  setMenus={setMenus}
+                  hpp={hpp}
+                  setHpp={setHpp}
+                  showToast={showToast}
+                />
+              )}
+              {activeTab === "profile" && (
+                <ProfileTab
+                  profile={profile}
+                  setProfile={setProfile}
+                  scriptUrl={scriptUrl}
+                  setScriptUrl={setScriptUrl}
+                  showToast={showToast}
+                  syncToSpreadsheet={syncToSpreadsheet}
+                  loadFromSpreadsheet={loadFromSpreadsheet}
+                  testConnection={testConnection}
+                  isSyncing={isSyncing}
+                />
+              )}
+            </main>
+
+            {/* Footer */}
+            <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 font-medium">
+              <p>© 2026 {profile.name} — Aplikasi UMKM Kopi & Snack ☕✨</p>
+            </footer>
+          </div>
+        );
+      }
+
+      // ==================== DASHBOARD TAB ====================
+      function DashboardTab({ menus, transactions, profile }) {
+        const now = new Date();
+        const todayStr = now.toDateString();
+        const currentMonth = now.getMonth();
+        const currentYear = now.getFullYear();
+
+        // Daily Stats
+        const todayTransactions = transactions.filter(
+          (t) => new Date(t.date).toDateString() === todayStr,
+        );
+        const todayRevenue = todayTransactions.reduce(
+          (acc, t) => acc + t.total,
+          0,
+        );
+        const todayItemsSold = todayTransactions.reduce(
+          (acc, t) => acc + t.items.reduce((sum, item) => sum + item.qty, 0),
+          0,
+        );
+
+        // Monthly Stats
+        const monthlyTransactions = transactions.filter((t) => {
+          const d = new Date(t.date);
+          return (
+            d.getMonth() === currentMonth && d.getFullYear() === currentYear
+          );
+        });
+        const monthlyRevenue = monthlyTransactions.reduce(
+          (acc, t) => acc + t.total,
+          0,
+        );
+        const monthlyCOGS = monthlyTransactions.reduce((acc, t) => {
+          return (
+            acc +
+            t.items.reduce((sum, item) => sum + (item.hpp || 0) * item.qty, 0)
+          );
+        }, 0);
+        const monthlyGrossProfit = monthlyRevenue - monthlyCOGS;
+
+        const lowStockItems = menus.filter((m) => m.stock <= m.minStock);
+
+        const itemCounts = {};
+        transactions.forEach((t) => {
+          t.items.forEach((item) => {
+            itemCounts[item.name] = (itemCounts[item.name] || 0) + item.qty;
+          });
+        });
+
+        const bestSellers = Object.entries(itemCounts)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5);
+
+        return (
+          <div className="space-y-8">
+            {/* Welcome Banner */}
+            <div className="bg-brand-800 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+              <div className="relative z-10">
+                <span className="bg-brand-700 text-brand-100 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+                  Dashboard & Laporan Keuangan 🚀
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-extrabold mt-3">
+                  Halo, Owner {profile.name}! ✨
+                </h2>
+                <p className="text-brand-100 text-sm sm:text-base mt-1 max-w-2xl">
+                  Pantau omzet harian & bulanan, HPP produk, serta keuntungan
+                  kotor usaha kamu secara realtime.
+                </p>
+              </div>
+            </div>
+
+            {/* Low Stock Warning */}
+            {lowStockItems.length > 0 && (
+              <div className="bg-rose-50 border border-rose-200 rounded-3xl p-5 shadow-sm flex items-start gap-4">
+                <div className="p-3 bg-rose-600 text-white rounded-2xl text-xl shadow-md">
+                  ⚠️
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-rose-900 font-bold text-base">
+                    Peringatan Stok Menipis!
+                  </h3>
+                  <p className="text-rose-700 text-sm mt-0.5">
+                    Stok menu berikut hampir habis:{" "}
+                    <span className="font-semibold">
+                      {lowStockItems.map((m) => m.name).join(", ")}
+                    </span>
+                    .
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                  Omzet Hari Ini
+                </span>
+                <h4 className="text-2xl font-extrabold text-brand-800 mt-2">
+                  Rp {todayRevenue.toLocaleString("id-ID")}
+                </h4>
+                <p className="text-xs text-emerald-600 font-semibold mt-1">
+                  📈 {todayTransactions.length} transaksi hari ini
+                </p>
+              </div>
+
+              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                  Omzet Bulan Ini
+                </span>
+                <h4 className="text-2xl font-extrabold text-brand-800 mt-2">
+                  Rp {monthlyRevenue.toLocaleString("id-ID")}
+                </h4>
+                <p className="text-xs text-emerald-600 font-semibold mt-1">
+                  🗓️ {monthlyTransactions.length} transaksi bulan ini
+                </p>
+              </div>
+
+              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                  Estimasi Laba Kotor Bulan Ini
+                </span>
+                <h4 className="text-2xl font-extrabold text-emerald-600 mt-2">
+                  Rp {monthlyGrossProfit.toLocaleString("id-ID")}
+                </h4>
+                <p className="text-xs text-slate-500 font-semibold mt-1">
+                  Total HPP: Rp {monthlyCOGS.toLocaleString("id-ID")}
+                </p>
+              </div>
+
+              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                  Terjual Hari Ini
+                </span>
+                <h4 className="text-2xl font-extrabold text-brand-800 mt-2">
+                  {todayItemsSold} Porsi
+                </h4>
+                <p className="text-xs text-slate-500 font-semibold mt-1">
+                  Kopi & Snack
+                </p>
+              </div>
+            </div>
+
+            {/* Best Sellers & Recent Transactions */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
+                <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+                  🔥 Top Menu Terlaris
+                </h3>
+                {bestSellers.length === 0 ? (
+                  <p className="text-slate-400 text-sm py-4">
+                    Belum ada transaksi.
+                  </p>
+                ) : (
+                  <div className="space-y-4">
+                    {bestSellers.map(([name, count], index) => (
+                      <div
+                        key={name}
+                        className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-100"
+                      >
+                        <span className="font-bold text-slate-800 text-sm">
+                          {index + 1}. {name}
+                        </span>
+                        <span className="font-extrabold text-brand-800">
+                          {count} Porsi
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
+                <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+                  🧾 Riwayat Transaksi Terakhir
+                </h3>
+                {transactions.length === 0 ? (
+                  <p className="text-slate-400 text-sm py-4">
+                    Belum ada transaksi.
+                  </p>
+                ) : (
+                  <div className="space-y-4">
+                    {transactions.slice(0, 5).map((trx) => (
+                      <div
+                        key={trx.id}
+                        className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between"
+                      >
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-slate-900 text-sm">
+                              {trx.id}
+                            </span>
+                            {trx.discountAmount > 0 && (
+                              <span className="text-[10px] px-2 py-0.5 rounded-md bg-rose-100 text-rose-700 font-bold">
+                                Diskon -Rp{" "}
+                                {trx.discountAmount.toLocaleString("id-ID")}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-slate-500 mt-1">
+                            {trx.items
+                              .map((i) => `${i.qty}x ${i.name}`)
+                              .join(", ")}
+                          </p>
+                        </div>
+                        <span className="font-extrabold text-brand-800 text-base">
+                          Rp {trx.total.toLocaleString("id-ID")}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      // ==================== MENU & STOK TAB ====================
+      function MenuTab({ menus, setMenus, showToast }) {
+        const [filterCategory, setFilterCategory] = useState("Semua");
+        const [searchQuery, setSearchQuery] = useState("");
+        const [isModalOpen, setIsModalOpen] = useState(false);
+        const [editingMenu, setEditingMenu] = useState(null);
+        const [deleteConfirmMenu, setDeleteConfirmMenu] = useState(null);
+
+        const [formData, setFormData] = useState({
+          name: "",
+          category: "Kopi",
+          hpp: "",
+          price: "",
+          stock: "",
+          minStock: "5",
+          image: "",
+          recipe: "",
+        });
+
+        const categories = ["Semua", "Kopi", "Non-Kopi", "Snack"];
+
+        const filteredMenus = menus.filter((m) => {
+          const matchesCategory =
+            filterCategory === "Semua" || m.category === filterCategory;
+          const matchesSearch = m.name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase());
+          return matchesCategory && matchesSearch;
+        });
+
+        const handleFileUpload = (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setFormData({ ...formData, image: reader.result });
+            };
+            reader.readAsDataURL(file);
+          }
+        };
+
+        const handleOpenAddModal = () => {
+          setEditingMenu(null);
+          setFormData({
+            name: "",
+            category: "Kopi",
+            hpp: "",
+            price: "",
+            stock: "",
+            minStock: "5",
+            image:
+              "https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=600&q=80",
+            recipe: "",
+          });
+          setIsModalOpen(true);
+        };
+
+        const handleOpenEditModal = (menu) => {
+          setEditingMenu(menu);
+          setFormData({
+            name: menu.name,
+            category: menu.category,
+            hpp: menu.hpp || 0,
+            price: menu.price,
+            stock: menu.stock,
+            minStock: menu.minStock || 5,
+            image: menu.image,
+            recipe: menu.recipe || "",
+          });
+          setIsModalOpen(true);
+        };
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          if (!formData.name || !formData.price || !formData.stock) {
+            showToast("Harap lengkapi form menu!", "error");
+            return;
+          }
+
+          if (editingMenu) {
+            setMenus(
+              menus.map((m) =>
+                m.id === editingMenu.id
+                  ? {
+                      ...m,
+                      name: formData.name,
+                      category: formData.category,
+                      hpp: Number(formData.hpp || 0),
+                      price: Number(formData.price),
+                      stock: Number(formData.stock),
+                      minStock: Number(formData.minStock),
+                      image: formData.image,
+                      recipe: formData.recipe,
+                    }
+                  : m,
+              ),
+            );
+            showToast(`Menu "${formData.name}" berhasil diperbarui!`);
+          } else {
+            const newMenu = {
+              id: Date.now(),
+              name: formData.name,
+              category: formData.category,
+              hpp: Number(formData.hpp || 0),
+              price: Number(formData.price),
+              stock: Number(formData.stock),
+              minStock: Number(formData.minStock),
+              image: formData.image,
+              recipe: formData.recipe,
+            };
+            setMenus([newMenu, ...menus]);
+            showToast(`Menu "${formData.name}" berhasil ditambahkan!`);
+          }
+          setIsModalOpen(false);
+        };
+
+        const confirmDeleteMenu = () => {
+          if (deleteConfirmMenu) {
+            setMenus(menus.filter((m) => m.id !== deleteConfirmMenu.id));
+            showToast(`Menu "${deleteConfirmMenu.name}" telah dihapus.`);
+            setDeleteConfirmMenu(null);
+          }
+        };
+
+        const handleQuickStockChange = (id, delta) => {
+          setMenus(
+            menus.map((m) => {
+              if (m.id === id) {
+                return { ...m, stock: Math.max(0, m.stock + delta) };
+              }
+              return m;
+            }),
+          );
+        };
+
+        return (
+          <div className="space-y-8">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
+              <div>
+                <h2 className="text-xl font-extrabold text-brand-800">
+                  Manajemen Menu, Stok & HPP ☕
+                </h2>
+                <p className="text-xs text-slate-500 mt-1">
+                  Tambah foto dari galeri HP/Laptop, hitung HPP & keuntungan
+                  produk.
+                </p>
+              </div>
+              <button
+                onClick={handleOpenAddModal}
+                className="bg-brand-800 hover:bg-brand-900 text-white font-bold px-6 py-3 rounded-2xl shadow-lg transition-all text-sm"
+              >
+                ➕ Tambah Menu Baru
+              </button>
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+              <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto">
+                {categories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setFilterCategory(cat)}
+                    className={`px-5 py-2.5 rounded-2xl font-bold text-xs transition-all ${
+                      filterCategory === cat
+                        ? "bg-brand-800 text-white shadow-md"
+                        : "bg-white text-brand-800 border border-slate-200 hover:bg-slate-100"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
+              <input
+                type="text"
+                placeholder="Cari nama menu..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full md:w-80 bg-white border border-slate-200 rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-800"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredMenus.map((menu) => (
+                <div
+                  key={menu.id}
+                  className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="relative h-48 bg-slate-100">
+                      <img
+                        src={menu.image}
+                        alt={menu.name}
+                        className="w-full h-full object-cover"
+                      />
+                      <span className="absolute top-3 left-3 bg-white/90 font-bold text-xs px-3 py-1 rounded-full shadow-sm text-brand-800">
+                        {menu.category}
+                      </span>
+                    </div>
+                    <div className="p-5">
+                      <div className="flex justify-between items-start">
+                        <h3 className="font-extrabold text-slate-900 text-base">
+                          {menu.name}
+                        </h3>
+                        <span className="font-black text-brand-800 text-base">
+                          Rp {menu.price.toLocaleString("id-ID")}
+                        </span>
+                      </div>
+                      <div className="mt-2 flex items-center justify-between text-xs bg-slate-50 p-2 rounded-xl">
+                        <span className="text-slate-500 font-semibold">
+                          HPP: Rp {(menu.hpp || 0).toLocaleString("id-ID")}
+                        </span>
+                        <span className="text-emerald-700 font-bold">
+                          Margin: Rp{" "}
+                          {(menu.price - (menu.hpp || 0)).toLocaleString(
+                            "id-ID",
+                          )}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-500 mt-2">
+                        Resep: {menu.recipe || "-"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-5 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-2xl">
+                      <button
+                        onClick={() => handleQuickStockChange(menu.id, -1)}
+                        className="w-6 h-6 rounded-lg bg-white font-black text-xs text-brand-800 shadow-sm"
+                      >
+                        -
+                      </button>
+                      <span className="w-8 text-center font-bold text-xs">
+                        {menu.stock}
+                      </span>
+                      <button
+                        onClick={() => handleQuickStockChange(menu.id, 1)}
+                        className="w-6 h-6 rounded-lg bg-white font-black text-xs text-brand-800 shadow-sm"
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => handleOpenEditModal(menu)}
+                        className="p-2 rounded-xl bg-slate-100 text-brand-800 text-xs font-bold"
+                      >
+                        ✏️ Edit
+                      </button>
+                      <button
+                        onClick={() => setDeleteConfirmMenu(menu)}
+                        className="p-2 rounded-xl bg-rose-50 text-rose-600 text-xs font-bold"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Delete Modal Confirmation */}
+            {deleteConfirmMenu && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+                <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center">
+                  <span className="text-4xl block mb-2">🗑️</span>
+                  <h3 className="text-lg font-extrabold text-slate-900">
+                    Hapus Menu ini?
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-1">
+                    Yakin ingin menghapus{" "}
+                    <strong>"{deleteConfirmMenu.name}"</strong>? Tindakan ini
+                    tidak dapat dibatalkan.
+                  </p>
+                  <div className="flex items-center justify-center gap-3 mt-6">
+                    <button
+                      onClick={() => setDeleteConfirmMenu(null)}
+                      className="px-5 py-2.5 rounded-2xl text-xs font-bold text-slate-600 bg-slate-100"
+                    >
+                      Batal
+                    </button>
+                    <button
+                      onClick={confirmDeleteMenu}
+                      className="px-5 py-2.5 rounded-2xl text-xs font-bold text-white bg-rose-600 shadow-md"
+                    >
+                      Ya, Hapus
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Add / Edit Modal */}
+            {isModalOpen && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+                <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+                  <h3 className="text-xl font-extrabold text-slate-900 mb-4">
+                    {editingMenu ? "✏️ Edit Menu" : "➕ Tambah Menu Baru"}
+                  </h3>
+
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                        Nama Menu
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.name}
+                        onChange={(e) =>
+                          setFormData({ ...formData, name: e.target.value })
+                        }
+                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-800"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-3">
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                          Kategori
+                        </label>
+                        <select
+                          value={formData.category}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              category: e.target.value,
+                            })
+                          }
+                          className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3 py-3 text-sm"
+                        >
+                          <option value="Kopi">Kopi</option>
+                          <option value="Non-Kopi">Non-Kopi</option>
+                          <option value="Snack">Snack</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                          HPP (Modal)
+                        </label>
+                        <input
+                          type="number"
+                          required
+                          value={formData.hpp}
+                          onChange={(e) =>
+                            setFormData({ ...formData, hpp: e.target.value })
+                          }
+                          className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-800"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                          Harga Jual
+                        </label>
+                        <input
+                          type="number"
+                          required
+                          value={formData.price}
+                          onChange={(e) =>
+                            setFormData({ ...formData, price: e.target.value })
+                          }
+                          className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-800"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                          Stok Awal
+                        </label>
+                        <input
+                          type="number"
+                          required
+                          value={formData.stock}
+                          onChange={(e) =>
+                            setFormData({ ...formData, stock: e.target.value })
+                          }
+                          className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-800"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                          Min. Stok Warning
+                        </label>
+                        <input
+                          type="number"
+                          required
+                          value={formData.minStock}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              minStock: e.target.value,
+                            })
+                          }
+                          className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-800"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                        Upload Foto Menu dari Galeri HP/Laptop
+                      </label>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileUpload}
+                        className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-800 file:text-white hover:file:bg-brand-900 cursor-pointer"
+                      />
+                      {formData.image && (
+                        <div className="mt-2 h-20 w-20 rounded-xl overflow-hidden border">
+                          <img
+                            src={formData.image}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                        Resep / Catatan Bahan
+                      </label>
+                      <textarea
+                        rows="2"
+                        value={formData.recipe}
+                        onChange={(e) =>
+                          setFormData({ ...formData, recipe: e.target.value })
+                        }
+                        className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-800"
+                      ></textarea>
+                    </div>
+
+                    <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+                      <button
+                        type="button"
+                        onClick={() => setIsModalOpen(false)}
+                        className="px-5 py-2.5 rounded-2xl text-sm font-bold text-slate-500"
+                      >
+                        Batal
+                      </button>
+                      <button
+                        type="submit"
+                        className="px-6 py-2.5 rounded-2xl bg-brand-800 text-white text-sm font-bold shadow-md"
+                      >
+                        Simpan Menu
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      // ==================== KASIR (POS) TAB WITH DISCOUNT & CASH CHANGE ====================
+      function PosTab({
+        menus,
+        setMenus,
+        transactions,
+        setTransactions,
+        showToast,
+      }) {
+        const [cart, setCart] = useState([]);
+        const [paymentMethod, setPaymentMethod] = useState("Tunai");
+        const [discountType, setDiscountType] = useState("percent"); // 'percent' or 'nominal'
+        const [discountValue, setDiscountValue] = useState(0);
+        const [cashPaid, setCashPaid] = useState("");
+        const [searchTerm, setSearchTerm] = useState("");
+
+        const filteredMenus = menus.filter((m) =>
+          m.name.toLowerCase().includes(searchTerm.toLowerCase()),
+        );
+
+        const addToCart = (menu) => {
+          if (menu.stock <= 0) {
+            showToast(`Stok "${menu.name}" habis!`, "error");
+            return;
+          }
+
+          const existing = cart.find((item) => item.id === menu.id);
+          if (existing) {
+            if (existing.qty >= menu.stock) {
+              showToast(`Stok "${menu.name}" tidak mencukupi!`, "error");
+              return;
+            }
+            setCart(
+              cart.map((item) =>
+                item.id === menu.id ? { ...item, qty: item.qty + 1 } : item,
+              ),
+            );
+          } else {
+            setCart([
+              ...cart,
+              {
+                id: menu.id,
+                name: menu.name,
+                price: menu.price,
+                hpp: menu.hpp || 0,
+                qty: 1,
+              },
+            ]);
+          }
+        };
+
+        const updateCartQty = (id, delta) => {
+          const menuObj = menus.find((m) => m.id === id);
+          setCart(
+            cart
+              .map((item) => {
+                if (item.id === id) {
+                  const newQty = item.qty + delta;
+                  if (newQty > menuObj.stock) {
+                    showToast(
+                      `Stok maksimal tersisa ${menuObj.stock}`,
+                      "error",
+                    );
+                    return item;
+                  }
+                  return newQty > 0 ? { ...item, qty: newQty } : null;
+                }
+                return item;
+              })
+              .filter(Boolean),
+          );
+        };
+
+        const subtotal = cart.reduce(
+          (sum, item) => sum + item.price * item.qty,
+          0,
+        );
+
+        // Calculate Discount Amount
+        const discountAmount = useMemo(() => {
+          if (discountType === "percent") {
+            return Math.round(subtotal * (Number(discountValue) / 100));
+          } else {
+            return Math.min(subtotal, Number(discountValue) || 0);
+          }
+        }, [subtotal, discountType, discountValue]);
+
+        const cartTotal = Math.max(0, subtotal - discountAmount);
+        const numericCashPaid = Number(cashPaid) || 0;
+        const changePaid =
+          paymentMethod === "Tunai"
+            ? Math.max(0, numericCashPaid - cartTotal)
+            : 0;
+
+        const handleCheckout = () => {
+          if (cart.length === 0) {
+            showToast("Keranjang masih kosong!", "error");
+            return;
+          }
+
+          if (paymentMethod === "Tunai" && numericCashPaid < cartTotal) {
+            showToast("Uang tunai yang dibayar kurang!", "error");
+            return;
+          }
+
+          setMenus((ms) =>
+            ms.map((menu) => {
+              const cartItem = cart.find((ci) => ci.id === menu.id);
+              if (cartItem) {
+                return { ...menu, stock: Math.max(0, menu.stock - cartItem.qty) };
+              }
+              return menu;
+            }),
+          );
+
+          const newTrx = {
+            id: newTrxId(),
+            date: new Date().toISOString(),
+            items: [...cart],
+            discountType: discountType,
+            discountValue: Number(discountValue),
+            discountAmount: discountAmount,
+            subtotal: subtotal,
+            total: cartTotal,
+            cashPaid: paymentMethod === "Tunai" ? numericCashPaid : cartTotal,
+            changePaid: changePaid,
+            paymentMethod: paymentMethod,
+          };
+
+          setTransactions((ts) => [newTrx, ...ts]);
+          setCart([]);
+          setDiscountValue(0);
+          setCashPaid("");
+          showToast(
+            `Transaksi ${newTrx.id} Berhasil! ${paymentMethod === "Tunai" ? `Kembalian: Rp ${changePaid.toLocaleString("id-ID")}` : ""}`,
+          );
+        };
+
+        return (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-7 space-y-6">
+              <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex items-center justify-between">
+                <h2 className="text-xl font-extrabold text-brand-800">
+                  Kasir (POS) ☕
+                </h2>
+                <input
+                  type="text"
+                  placeholder="Cari menu..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-brand-800"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {filteredMenus.map((menu) => (
+                  <button
+                    key={menu.id}
+                    onClick={() => addToCart(menu)}
+                    disabled={menu.stock <= 0}
+                    className={`bg-white rounded-2xl border p-3 text-left transition-all ${
+                      menu.stock <= 0
+                        ? "opacity-40 border-rose-200"
+                        : "border-slate-200 hover:border-brand-800"
+                    }`}
+                  >
+                    <div className="h-28 rounded-xl overflow-hidden mb-2 bg-slate-100">
+                      <img
+                        src={menu.image}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <h4 className="font-extrabold text-slate-900 text-xs line-clamp-1">
+                      {menu.name}
+                    </h4>
+                    <p className="font-black text-brand-800 text-xs mt-1">
+                      Rp {menu.price.toLocaleString("id-ID")}
+                    </p>
+                    <span className="text-[10px] text-slate-500 font-bold block mt-2">
+                      Stok: {menu.stock}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Cart & Checkout */}
+            <div className="lg:col-span-5 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-between h-fit sticky top-28">
+              <div>
+                <h3 className="text-lg font-bold text-slate-900 pb-4 border-b border-slate-100">
+                  🛒 Keranjang Pesanan
+                </h3>
+
+                <div className="divide-y divide-slate-100 max-h-52 overflow-y-auto my-4">
+                  {cart.length === 0 ? (
+                    <p className="text-center py-8 text-slate-400 text-xs">
+                      Keranjang masih kosong.
+                    </p>
+                  ) : (
+                    cart.map((item) => (
+                      <div
+                        key={item.id}
+                        className="py-3 flex items-center justify-between"
+                      >
+                        <div>
+                          <h4 className="font-bold text-slate-900 text-xs">
+                            {item.name}
+                          </h4>
+                          <p className="text-xs text-brand-800 font-semibold">
+                            Rp {item.price.toLocaleString("id-ID")}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => updateCartQty(item.id, -1)}
+                            className="w-6 h-6 rounded bg-slate-100 font-bold text-xs text-brand-800"
+                          >
+                            -
+                          </button>
+                          <span className="font-bold text-xs">{item.qty}</span>
+                          <button
+                            onClick={() => updateCartQty(item.id, 1)}
+                            className="w-6 h-6 rounded bg-slate-100 font-bold text-xs text-brand-800"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              <div className="border-t border-slate-100 pt-4 space-y-4">
+                {/* Fitur Diskon % & Nominal */}
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-xs font-bold text-slate-700 uppercase">
+                      Diskon
+                    </label>
+                    <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl">
+                      <button
+                        onClick={() => setDiscountType("percent")}
+                        className={`px-2 py-0.5 rounded-lg text-[10px] font-bold ${discountType === "percent" ? "bg-brand-800 text-white" : "text-slate-600"}`}
+                      >
+                        Persen (%)
+                      </button>
+                      <button
+                        onClick={() => setDiscountType("nominal")}
+                        className={`px-2 py-0.5 rounded-lg text-[10px] font-bold ${discountType === "nominal" ? "bg-brand-800 text-white" : "text-slate-600"}`}
+                      >
+                        Nominal (Rp)
+                      </button>
+                    </div>
+                  </div>
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder={
+                      discountType === "percent"
+                        ? "Contoh: 10 (%)"
+                        : "Contoh: 5000 (Rp)"
+                    }
+                    value={discountValue || ""}
+                    onChange={(e) => setDiscountValue(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-brand-800"
+                  />
+                </div>
+
+                {/* Metode Pembayaran */}
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                    Metode Pembayaran
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {["Tunai", "QRIS", "Transfer"].map((method) => (
+                      <button
+                        key={method}
+                        onClick={() => setPaymentMethod(method)}
+                        className={`py-2 rounded-xl text-xs font-bold border ${
+                          paymentMethod === method
+                            ? "bg-brand-800 text-white border-brand-800"
+                            : "bg-slate-50 text-slate-700 border-slate-200"
+                        }`}
+                      >
+                        {method}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Input Tunai & Fitur Kembalian */}
+                {paymentMethod === "Tunai" && (
+                  <div className="bg-blue-50/50 p-3 rounded-2xl border border-blue-100 space-y-2">
+                    <div>
+                      <label className="block text-[10px] font-bold text-brand-800 uppercase mb-1">
+                        Uang Tunai Diterima (Rp)
+                      </label>
+                      <input
+                        type="number"
+                        placeholder="Contoh: 50000"
+                        value={cashPaid}
+                        onChange={(e) => setCashPaid(e.target.value)}
+                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-bold text-brand-800 focus:outline-none focus:ring-2 focus:ring-brand-800"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <div className="flex flex-wrap gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => setCashPaid(String(cartTotal))}
+                          disabled={cartTotal <= 0}
+                          className="px-3 py-1.5 rounded-xl text-[11px] font-extrabold bg-emerald-600 text-white disabled:opacity-40"
+                        >
+                          Uang Pas
+                        </button>
+                        {[2000, 5000, 10000, 20000, 50000, 100000].map((n) => (
+                          <button
+                            key={n}
+                            type="button"
+                            onClick={() => setCashPaid(String(numericCashPaid + n))}
+                            className="px-3 py-1.5 rounded-xl text-[11px] font-bold bg-white border border-brand-200 text-brand-800 hover:bg-brand-100"
+                          >
+                            {n.toLocaleString("id-ID")}
+                          </button>
+                        ))}
+                        <button
+                          type="button"
+                          onClick={() => setCashPaid("")}
+                          className="px-3 py-1.5 rounded-xl text-[11px] font-bold bg-rose-50 text-rose-600 border border-rose-200"
+                        >
+                          Reset
+                        </button>
+                      </div>
+                      <p className="text-[10px] text-slate-500">
+                        Tekan nominal untuk menambah (mis. 100.000 + 50.000 = 150.000).
+                      </p>
+                    </div>
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="font-bold text-slate-600">
+                        Kembalian:
+                      </span>
+                      <span
+                        className={`font-extrabold ${numericCashPaid < cartTotal ? "text-rose-600" : "text-emerald-600"}`}
+                      >
+                        Rp {changePaid.toLocaleString("id-ID")}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Subtotal & Total Display */}
+                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
+                  <div className="flex justify-between text-xs text-slate-500 font-medium">
+                    <span>Subtotal:</span>
+                    <span>Rp {subtotal.toLocaleString("id-ID")}</span>
+                  </div>
+                  {discountAmount > 0 && (
+                    <div className="flex justify-between text-xs text-rose-600 font-semibold">
+                      <span>Diskon Potongan:</span>
+                      <span>- Rp {discountAmount.toLocaleString("id-ID")}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-base font-black text-brand-800 pt-1 border-t border-slate-200">
+                    <span>Total Tagihan:</span>
+                    <span>Rp {cartTotal.toLocaleString("id-ID")}</span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleCheckout}
+                  disabled={cart.length === 0}
+                  className="w-full py-4 rounded-2xl font-extrabold text-sm bg-brand-800 text-white shadow-xl hover:bg-brand-900 transition-all disabled:opacity-50"
+                >
+                  ⚡ Bayar & Potong Stok
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      // ==================== PROFILE & SPREADSHEET TAB ====================
+      function ProfileTab({
+        profile,
+        setProfile,
+        scriptUrl,
+        setScriptUrl,
+        showToast,
+        syncToSpreadsheet,
+        loadFromSpreadsheet,
+        testConnection,
+        isSyncing,
+      }) {
+        const [tempProfile, setTempProfile] = useState(profile);
+        const [urlInput, setUrlInput] = useState(scriptUrl);
+        const [keyInput, setKeyInput] = useState(getApiKey());
+
+        const handleLogoUpload = (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setTempProfile({ ...tempProfile, logo: reader.result });
+            };
+            reader.readAsDataURL(file);
+          }
+        };
+
+        const handleSaveProfile = (e) => {
+          e.preventDefault();
+          setProfile(tempProfile);
+          setScriptUrl(urlInput.trim());
+          localStorage.setItem("umkm_api_key", keyInput.trim());
+          showToast("Profil bisnis & integrasi berhasil disimpan!");
+        };
+
+        return (
+          <div className="max-w-2xl mx-auto space-y-8">
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm">
+              <h2 className="text-xl font-extrabold text-brand-800 mb-6">
+                ⚙️ Edit Profil Bisnis UMKM
+              </h2>
+
+              <form onSubmit={handleSaveProfile} className="space-y-6">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-2">
+                    Foto / Logo Bisnis
+                  </label>
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={tempProfile.logo}
+                      className="w-16 h-16 rounded-2xl object-cover ring-2 ring-brand-800"
+                    />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleLogoUpload}
+                      className="text-xs text-slate-500 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-brand-800 file:text-white cursor-pointer"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                    Nama Usaha / Kedai
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={tempProfile.name}
+                    onChange={(e) =>
+                      setTempProfile({ ...tempProfile, name: e.target.value })
+                    }
+                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-800"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                    Tagline / Deskripsi Singkat
+                  </label>
+                  <input
+                    type="text"
+                    value={tempProfile.tagline}
+                    onChange={(e) =>
+                      setTempProfile({
+                        ...tempProfile,
+                        tagline: e.target.value,
+                      })
+                    }
+                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-800"
+                  />
+                </div>
+
+                <hr className="border-slate-100" />
+
+                <div>
+                  <h3 className="text-base font-bold text-brand-800 mb-2">
+                    📊 Integrasi Google Sheets
+                  </h3>
+                  <p className="text-xs text-slate-500 mb-3">
+                    Masukkan URL Web App dari Apps Script (`Code.gs`) untuk
+                    sinkronisasi otomatis ke Google Spreadsheet kamu.
+                  </p>
+                  <input
+                    type="url"
+                    placeholder="https://script.google.com/macros/s/..."
+                    value={urlInput}
+                    onChange={(e) => setUrlInput(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs focus:outline-none focus:ring-2 focus:ring-brand-800"
+                  />
+                  <input
+                    type="password"
+                    placeholder="API key (opsional, samakan dengan Script Properties API_KEY)"
+                    value={keyInput}
+                    onChange={(e) => setKeyInput(e.target.value)}
+                    className="w-full mt-2 bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-xs focus:outline-none focus:ring-2 focus:ring-brand-800"
+                  />
+                </div>
+
+                <div className="flex items-center justify-between pt-4">
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                    type="button"
+                    onClick={syncToSpreadsheet}
+                    disabled={isSyncing}
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-2xl text-xs transition-all"
+                  >
+                    {isSyncing ? "⏳ Syncing..." : "Test Sync Sekarang"}
+                  </button>
+                    <button
+                      type="button"
+                      onClick={loadFromSpreadsheet}
+                      disabled={isSyncing}
+                      className="bg-brand-50 hover:bg-brand-100 text-brand-800 border border-brand-200 font-bold px-5 py-2.5 rounded-2xl text-xs transition-all"
+                    >
+                      ⬇️ Tarik dari Sheets
+                    </button>
+                    <button
+                      type="button"
+                      onClick={testConnection}
+                      disabled={isSyncing}
+                      className="bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold px-5 py-2.5 rounded-2xl text-xs transition-all"
+                    >
+                      🔌 Tes Koneksi
+                    </button>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="bg-brand-800 hover:bg-brand-900 text-white font-bold px-6 py-3 rounded-2xl text-sm shadow-md transition-all"
+                  >
+                    Simpan Perubahan
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        );
+      }
+
+      // ==================== HPP TAB ====================
+      const inCls =
+        "w-full min-w-[70px] bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-brand-800";
+      const nm = (v) => parseFloat(v) || 0;
+      const rpf = (n) =>
+        "Rp " + Math.round(isFinite(n) ? n : 0).toLocaleString("id-ID");
+      const fmtUnit = (n) =>
+        n < 100
+          ? n.toFixed(2).replace(".", ",")
+          : Math.round(n).toLocaleString("id-ID");
+      const up500 = (n) => Math.ceil(n / 500) * 500;
+      const Num = ({ v, on }) => (
+        <input
+          type="number"
+          step="any"
+          min="0"
+          value={v}
+          onChange={(e) => on(e.target.value)}
+          className={inCls + " text-right"}
+        />
+      );
+      const Txt = ({ v, on }) => (
+        <input
+          type="text"
+          value={v}
+          onChange={(e) => on(e.target.value)}
+          className={inCls}
+        />
+      );
+
+      function HppTab({ menus, setMenus, hpp, setHpp, showToast }) {
+        const [sub, setSub] = useState("harga");
+        const [sim, setSim] = useState({ g: "10", per: {}, mode: {} });
+        const upd = (fn) => {
+          const c = JSON.parse(JSON.stringify(hpp));
+          fn(c);
+          setHpp(c);
+        };
+        const uid = () => Math.random().toString(36).slice(2, 8);
+        const bById = (id) => hpp.bahan.find((x) => x.id === id);
+        const rById = (id) => hpp.resep.find((x) => x.id === id);
+        const unitCost = (b) => {
+          const d = (nm(b.isi) * nm(b.yield)) / 100;
+          return d ? (nm(b.harga) + nm(b.ongkir)) / d : 0;
+        };
+        const refUnit = (ref, d = 0) => {
+          const [t, id] = ref.split(":");
+          if (t === "b") {
+            const b = bById(id);
+            return b ? unitCost(b) : 0;
+          }
+          const r = rById(id);
+          return r && d < 5 ? recipeCost(r, d + 1) / (nm(r.hasil) || 1) : 0;
+        };
+        const recipeCost = (r, d = 0) =>
+          r.items.reduce((s, i) => s + nm(i.qty) * refUnit(i.ref, d), 0);
+        const perPorsi = (r) => recipeCost(r) / (nm(r.hasil) || 1);
+        const susut = (a) => (nm(a.harga) - nm(a.sisa)) / (nm(a.umur) || 1);
+        const totalOps =
+          hpp.biaya.reduce((s, x) => s + nm(x.v), 0) +
+          hpp.alat.reduce((s, a) => s + susut(a), 0);
+        const overhead = totalOps / (nm(hpp.vol) || 1);
+        const unitOf = (ref) => {
+          const [t, id] = ref.split(":");
+          if (t === "b") {
+            const b = bById(id);
+            return b ? b.satuan : "";
+          }
+          const r = rById(id);
+          return r ? r.unit : "";
+        };
+        const menuOf = (r) =>
+          menus.find((m) => String(m.id) === String(r.menuId));
+
+        const card =
+          "bg-white p-5 rounded-3xl border border-slate-200 shadow-sm";
+        const th =
+          "text-[10px] font-bold uppercase text-slate-500 px-2 py-2 text-left whitespace-nowrap";
+        const td = "px-2 py-1.5 whitespace-nowrap";
+        const delBtn = (fn) => (
+          <button onClick={fn} className="text-rose-600 font-bold text-xs px-2">
+            ✕
+          </button>
+        );
+        const addBtn = (label, fn) => (
+          <button
+            onClick={fn}
+            className="bg-brand-50 text-brand-800 border border-brand-200 font-bold text-xs px-3 py-2 rounded-xl hover:bg-brand-100"
+          >
+            {label}
+          </button>
+        );
+        const ask = (fn) => {
+          if (confirm("Hapus baris ini?")) fn();
+        };
+
+        const menuRecipes = hpp.resep.filter((r) => !r.batch);
+        const rows = menuRecipes
+          .map((r) => {
+            const m = menuOf(r);
+            const hb = perPorsi(r);
+            const hp = hb + overhead;
+            const saran = up500(hb / (nm(hpp.fc) / 100 || 1));
+            const jual = m ? nm(m.price) : nm(r.harga) || saran;
+            const net = jual * (1 - nm(hpp.qris) / 100) - hp;
+            const netPl = jual * (1 - nm(hpp.fee) / 100) - hp;
+            const fcAct = jual ? (hb / jual) * 100 : 0;
+            return {
+              r,
+              m,
+              hb,
+              hp,
+              saran,
+              jual,
+              net,
+              netPl,
+              fcAct,
+              hargaPl: up500(jual / (1 - nm(hpp.fee) / 100 || 1)),
+            };
+          })
+          .sort((a, b) => b.net - a.net);
+
+        const setJual = (x, v) => {
+          if (x.m)
+            setMenus((ms) =>
+              ms.map((m) => (m.id === x.m.id ? { ...m, price: nm(v) } : m)),
+            );
+          else
+            upd((c) => {
+              c.resep.find((r) => r.id === x.r.id).harga = v;
+            });
+        };
+        const applyHpp = (x) => {
+          if (!x.m) return;
+          setMenus((ms) =>
+            ms.map((m) =>
+              m.id === x.m.id ? { ...m, hpp: Math.round(x.hb) } : m,
+            ),
+          );
+          showToast(`HPP "${x.m.name}" diterapkan: ${rpf(x.hb)}`);
+        };
+        const applyAll = () => {
+          const map = {};
+          rows.forEach((x) => {
+            if (x.m) map[x.m.id] = Math.round(x.hb);
+          });
+          setMenus((ms) =>
+            ms.map((m) => (map[m.id] != null ? { ...m, hpp: map[m.id] } : m)),
+          );
+          showToast("HPP bahan semua menu tertaut sudah diterapkan ke tab Menu!");
+        };
+
+        const simHarga = (b) => {
+          const v = sim.per[b.id];
+          const has = v !== undefined && v !== "";
+          if (has && (sim.mode[b.id] || "%") === "Rp") return Math.max(0, nm(b.harga) + nm(v));
+          return nm(b.harga) * (1 + (has ? nm(v) : nm(sim.g)) / 100);
+        };
+        const simUnit = (b) => {
+          const d = (nm(b.isi) * nm(b.yield)) / 100;
+          return d ? (simHarga(b) + nm(b.ongkir)) / d : 0;
+        };
+        const refUnitS = (ref, d = 0) => {
+          const [t, id] = ref.split(":");
+          if (t === "b") {
+            const b = bById(id);
+            return b ? simUnit(b) : 0;
+          }
+          const r = rById(id);
+          return r && d < 5 ? recipeCostS(r, d + 1) / (nm(r.hasil) || 1) : 0;
+        };
+        const recipeCostS = (r, d = 0) =>
+          r.items.reduce((s, i) => s + nm(i.qty) * refUnitS(i.ref, d), 0);
+
+        const exportCsv = () => {
+          const head = ["Menu", "HPP bahan", "Overhead", "HPP penuh", "Harga jual", "Food cost %", "Laba bersih offline", "Harga online", "Laba online"];
+          const lines = [head].concat(
+            rows.map((x) => [
+              x.m ? x.m.name : x.r.nama,
+              Math.round(x.hb),
+              Math.round(overhead),
+              Math.round(x.hp),
+              Math.round(x.jual),
+              x.fcAct.toFixed(1),
+              Math.round(x.net),
+              x.hargaPl,
+              Math.round(x.netPl),
+            ]),
+          );
+          const csv = lines
+            .map((l) => l.map((v) => '"' + String(v).replace(/"/g, '""') + '"').join(","))
+            .join("\n");
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(new Blob(["\ufeff" + csv], { type: "text/csv" }));
+          a.download = "hpp-menu.csv";
+          a.click();
+        };
+
+        const over = rows.filter((x) => x.fcAct > nm(hpp.fc));
+        const rugi = rows.filter((x) => x.net < 0);
+        const banner =
+          over.length || rugi.length ? (
+            <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-2xl p-4 text-xs font-semibold space-y-1">
+              {over.length > 0 && (
+                <p>
+                  ⚠️ {over.length} menu melewati target food cost:{" "}
+                  {over.map((x) => (x.m ? x.m.name : x.r.nama)).join(", ")}
+                </p>
+              )}
+              {rugi.length > 0 && (
+                <p>
+                  🔻 {rugi.length} menu rugi setelah overhead:{" "}
+                  {rugi.map((x) => (x.m ? x.m.name : x.r.nama)).join(", ")}
+                </p>
+              )}
+            </div>
+          ) : (
+            <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl p-4 text-xs font-semibold">
+              ✅ Semua menu sesuai target food cost dan masih untung.
+            </div>
+          );
+
+        const viewHarga = (
+          <div className="space-y-6">
+            {banner}
+            <div className={card}>
+              <h3 className="font-extrabold text-brand-800 mb-3">
+                🎯 Pengaturan Target
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {[
+                  ["Target food cost %", "fc"],
+                  ["Fee QRIS/EDC %", "qris"],
+                  ["Komisi platform online %", "fee"],
+                ].map(([l, k]) => (
+                  <div key={k}>
+                    <label className="block text-[10px] font-bold uppercase text-slate-600 mb-1">
+                      {l}
+                    </label>
+                    <Num
+                      v={hpp[k]}
+                      on={(v) =>
+                        upd((c) => {
+                          c[k] = v;
+                        })
+                      }
+                    />
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs text-slate-500 mt-2">
+                Overhead per porsi saat ini <b>{rpf(overhead)}</b> (atur di
+                sub-tab Operasional).
+              </p>
+            </div>
+            <div className={card}>
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <h3 className="font-extrabold text-brand-800">
+                  💰 Harga & Laba per Menu
+                </h3>
+                <div className="flex gap-2">{addBtn("⬇️ Terapkan HPP bahan ke semua menu", applyAll)}{addBtn("📄 Ekspor CSV", exportCsv)}</div>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs min-w-[900px]">
+                  <thead>
+                    <tr>
+                      {[
+                        "Menu",
+                        "HPP bahan",
+                        "HPP penuh",
+                        "Saran harga",
+                        "Harga jual",
+                        "Food cost",
+                        "Laba bersih offline",
+                        "Harga online",
+                        "Laba online (harga sama)",
+                        "",
+                      ].map((h) => (
+                        <th key={h} className={th}>
+                          {h}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows.map((x) => (
+                      <tr key={x.r.id} className="border-t border-slate-100">
+                        <td className={td + " font-bold"}>
+                          {x.m ? x.m.name : x.r.nama}
+                          {!x.m && (
+                            <span className="block text-[10px] font-normal text-amber-600">
+                              belum tertaut ke menu
+                            </span>
+                          )}
+                        </td>
+                        <td className={td}>{rpf(x.hb)}</td>
+                        <td className={td}>{rpf(x.hp)}</td>
+                        <td className={td}>{rpf(x.saran)}</td>
+                        <td className={td}>
+                          <Num v={x.jual} on={(v) => setJual(x, v)} />
+                        </td>
+                        <td className={td}>
+                          <span
+                            className={`px-2 py-0.5 rounded-full font-bold ${x.fcAct <= nm(hpp.fc) ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"}`}
+                          >
+                            {x.fcAct.toFixed(1).replace(".", ",")}%
+                          </span>
+                        </td>
+                        <td
+                          className={`${td} font-bold ${x.net >= 0 ? "text-emerald-600" : "text-rose-600"}`}
+                        >
+                          {rpf(x.net)}
+                        </td>
+                        <td className={td}>{rpf(x.hargaPl)}</td>
+                        <td
+                          className={`${td} ${x.netPl >= 0 ? "text-emerald-600" : "text-rose-600"}`}
+                        >
+                          {rpf(x.netPl)}
+                        </td>
+                        <td className={td}>
+                          {x.m && (
+                            <button
+                              onClick={() => applyHpp(x)}
+                              className="text-brand-800 font-bold underline"
+                            >
+                              Terapkan HPP
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p className="text-[11px] text-slate-500 mt-3">
+                Harga jual menu tertaut = harga di tab Menu (diubah di sini ikut
+                berubah). "Terapkan HPP" mengisi kolom HPP di tab Menu dengan HPP
+                bahan, yang dipakai Dashboard untuk laba kotor. Laba bersih =
+                harga − fee pembayaran − HPP penuh (bahan + overhead). Pajak
+                belum dihitung.
+              </p>
+            </div>
+          </div>
+        );
+
+        const bf = (i, f) => (
+          <td className={td}>
+            <Num
+              v={hpp.bahan[i][f]}
+              on={(v) =>
+                upd((c) => {
+                  const b = c.bahan[i];
+                  if (f === "harga") {
+                    const d = new Date().toISOString().slice(0, 10);
+                    b.hist = b.hist || [{ d: "awal", h: b.harga }];
+                    const last = b.hist[b.hist.length - 1];
+                    if (last.d === d) last.h = v;
+                    else b.hist.push({ d, h: v });
+                  }
+                  b[f] = v;
+                })
+              }
+            />
+          </td>
+        );
+        const trend = (b) => {
+          const h = b.hist || [];
+          if (h.length < 2) return <span className="text-slate-400">-</span>;
+          const a = nm(h[h.length - 2].h), z = nm(h[h.length - 1].h);
+          const ch = a ? ((z - a) / a) * 100 : 0;
+          const tip = h.map((x) => x.d + ": " + rpf(nm(x.h))).join("\n");
+          return (
+            <span title={tip} className={`font-bold cursor-help ${ch > 0 ? "text-rose-600" : ch < 0 ? "text-emerald-600" : "text-slate-500"}`}>
+              {ch > 0 ? "▲" : ch < 0 ? "▼" : "•"} {Math.abs(ch).toFixed(1).replace(".", ",")}%
+            </span>
+          );
+        };
+        const viewBahan = (
+          <div className={card}>
+            <h3 className="font-extrabold text-brand-800 mb-3">
+              🥛 Bahan Baku & Kemasan
+            </h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs min-w-[780px]">
+                <thead>
+                  <tr>
+                    {[
+                      "Nama",
+                      "Satuan",
+                      "Harga beli",
+                      "Ongkir",
+                      "Isi bersih",
+                      "Yield %",
+                      "Biaya / satuan",
+                      "Perubahan harga",
+                      "",
+                    ].map((h) => (
+                      <th key={h} className={th}>
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {hpp.bahan.map((b, i) => (
+                    <tr key={b.id} className="border-t border-slate-100">
+                      <td className={td}>
+                        <Txt
+                          v={b.nama}
+                          on={(v) =>
+                            upd((c) => {
+                              c.bahan[i].nama = v;
+                            })
+                          }
+                        />
+                      </td>
+                      <td className={td}>
+                        <select
+                          value={b.satuan}
+                          onChange={(e) =>
+                            upd((c) => {
+                              c.bahan[i].satuan = e.target.value;
+                            })
+                          }
+                          className={inCls}
+                        >
+                          {["g", "ml", "pcs"].map((u) => (
+                            <option key={u}>{u}</option>
+                          ))}
+                        </select>
+                      </td>
+                      {bf(i, "harga")}
+                      {bf(i, "ongkir")}
+                      {bf(i, "isi")}
+                      {bf(i, "yield")}
+                      <td className={td + " font-bold text-brand-800"}>
+                        Rp {fmtUnit(unitCost(b))}/{b.satuan}
+                      </td>
+                      <td className={td}>{trend(b)}</td>
+                      <td className={td}>
+                        {delBtn(() =>
+                          ask(() =>
+                            upd((c) => {
+                              c.bahan.splice(i, 1);
+                            }),
+                          ),
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-3">
+              {addBtn("+ Tambah bahan", () =>
+                upd((c) => {
+                  c.bahan.push({
+                    id: uid(),
+                    nama: "Bahan baru",
+                    satuan: "g",
+                    harga: 0,
+                    ongkir: 0,
+                    isi: 1000,
+                    yield: 100,
+                  });
+                }),
+              )}
+            </div>
+            <p className="text-[11px] text-slate-500 mt-3">
+              Biaya per satuan = (harga beli + ongkir) ÷ (isi bersih × yield).
+              Isi bersih dalam g/ml/pcs (1 kg = 1000 g, 1 liter = 1000 ml).
+              Yield memperhitungkan susut, tumpah, dan kupasan.
+            </p>
+          </div>
+        );
+
+        const itemOpts = (self) => (
+          <>
+            <optgroup label="Bahan">
+              {hpp.bahan.map((b) => (
+                <option key={b.id} value={"b:" + b.id}>
+                  {b.nama} ({b.satuan})
+                </option>
+              ))}
+            </optgroup>
+            <optgroup label="Sub-resep">
+              {hpp.resep
+                .filter((r) => r.batch && r.id !== self)
+                .map((r) => (
+                  <option key={r.id} value={"r:" + r.id}>
+                    {r.nama} ({r.unit})
+                  </option>
+                ))}
+            </optgroup>
+          </>
+        );
+        const viewResep = (
+          <div className="space-y-4">
+            {hpp.resep.map((r, ri) => (
+              <div key={r.id} className={card}>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-2 items-end mb-3">
+                  <div className="col-span-2">
+                    <label className="block text-[10px] font-bold uppercase text-slate-600 mb-1">
+                      Nama resep
+                    </label>
+                    <Txt
+                      v={r.nama}
+                      on={(v) =>
+                        upd((c) => {
+                          c.resep[ri].nama = v;
+                        })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-bold uppercase text-slate-600 mb-1">
+                      Jenis
+                    </label>
+                    <select
+                      value={r.batch ? "1" : "0"}
+                      onChange={(e) =>
+                        upd((c) => {
+                          c.resep[ri].batch = e.target.value === "1";
+                          c.resep[ri].unit = e.target.value === "1" ? "ml" : "porsi";
+                          if (e.target.value === "0") c.resep[ri].hasil = 1;
+                        })
+                      }
+                      className={inCls}
+                    >
+                      <option value="0">Menu jual</option>
+                      <option value="1">Sub-resep / batch</option>
+                    </select>
+                  </div>
+                  {r.batch ? (
+                    <>
+                      <div>
+                        <label className="block text-[10px] font-bold uppercase text-slate-600 mb-1">
+                          Hasil jadi
+                        </label>
+                        <Num
+                          v={r.hasil}
+                          on={(v) =>
+                            upd((c) => {
+                              c.resep[ri].hasil = v;
+                            })
+                          }
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[10px] font-bold uppercase text-slate-600 mb-1">
+                          Satuan hasil
+                        </label>
+                        <select
+                          value={r.unit}
+                          onChange={(e) =>
+                            upd((c) => {
+                              c.resep[ri].unit = e.target.value;
+                            })
+                          }
+                          className={inCls}
+                        >
+                          {["ml", "g", "pcs"].map((u) => (
+                            <option key={u}>{u}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="col-span-2">
+                      <label className="block text-[10px] font-bold uppercase text-slate-600 mb-1">
+                        Tautkan ke menu (tab Menu)
+                      </label>
+                      <select
+                        value={r.menuId == null ? "" : String(r.menuId)}
+                        onChange={(e) =>
+                          upd((c) => {
+                            c.resep[ri].menuId =
+                              e.target.value === "" ? null : e.target.value;
+                          })
+                        }
+                        className={inCls}
+                      >
+                        <option value="">(tidak ditautkan)</option>
+                        {menus.map((m) => (
+                          <option key={m.id} value={String(m.id)}>
+                            {m.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs min-w-[520px]">
+                    <thead>
+                      <tr>
+                        {["Bahan", "Takaran", "Sat.", "Biaya", ""].map((h) => (
+                          <th key={h} className={th}>
+                            {h}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {r.items.map((it, ii) => (
+                        <tr key={ii} className="border-t border-slate-100">
+                          <td className={td}>
+                            <select
+                              value={it.ref}
+                              onChange={(e) =>
+                                upd((c) => {
+                                  c.resep[ri].items[ii].ref = e.target.value;
+                                })
+                              }
+                              className={inCls}
+                            >
+                              {itemOpts(r.id)}
+                            </select>
+                          </td>
+                          <td className={td}>
+                            <Num
+                              v={it.qty}
+                              on={(v) =>
+                                upd((c) => {
+                                  c.resep[ri].items[ii].qty = v;
+                                })
+                              }
+                            />
+                          </td>
+                          <td className={td}>{unitOf(it.ref)}</td>
+                          <td className={td}>{rpf(nm(it.qty) * refUnit(it.ref))}</td>
+                          <td className={td}>
+                            {delBtn(() =>
+                              upd((c) => {
+                                c.resep[ri].items.splice(ii, 1);
+                              }),
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="flex flex-wrap items-center justify-between gap-2 mt-3">
+                  <div className="flex gap-2">
+                    {addBtn("+ Bahan ke resep", () =>
+                      upd((c) => {
+                        if (c.bahan[0])
+                          c.resep[ri].items.push({ ref: "b:" + c.bahan[0].id, qty: 0 });
+                      }),
+                    )}
+                    <button
+                      onClick={() =>
+                        ask(() =>
+                          upd((c) => {
+                            c.resep.splice(ri, 1);
+                          }),
+                        )
+                      }
+                      className="text-rose-600 font-bold text-xs px-3"
+                    >
+                      Hapus resep
+                    </button>
+                  </div>
+                  <p className="font-extrabold text-brand-800 text-sm">
+                    {r.batch
+                      ? `Biaya per ${r.unit}: Rp ${fmtUnit(perPorsi(r))} (total batch ${rpf(recipeCost(r))})`
+                      : `HPP bahan per porsi: ${rpf(recipeCost(r))}`}
+                  </p>
+                </div>
+              </div>
+            ))}
+            {addBtn("+ Resep baru", () =>
+              upd((c) => {
+                c.resep.push({
+                  id: uid(),
+                  nama: "Resep baru",
+                  batch: false,
+                  hasil: 1,
+                  unit: "porsi",
+                  menuId: null,
+                  items: [],
+                });
+              }),
+            )}
+            <p className="text-[11px] text-slate-500">
+              Masukkan kemasan (cup, box, sedotan) sebagai bahan berjenis pcs.
+              Sub-resep (sirup, cold brew, saus) dihitung per ml/g hasil jadi
+              lalu dipakai di menu.
+            </p>
+          </div>
+        );
+
+        const viewOps = (
+          <div className="space-y-6">
+            <div className={card}>
+              <h3 className="font-extrabold text-brand-800 mb-3">
+                🏠 Biaya Bulanan
+              </h3>
+              <table className="w-full text-xs">
+                <tbody>
+                  {hpp.biaya.map((x, i) => (
+                    <tr key={i} className="border-t border-slate-100">
+                      <td className={td}>
+                        <Txt
+                          v={x.nama}
+                          on={(v) =>
+                            upd((c) => {
+                              c.biaya[i].nama = v;
+                            })
+                          }
+                        />
+                      </td>
+                      <td className={td}>
+                        <Num
+                          v={x.v}
+                          on={(v) =>
+                            upd((c) => {
+                              c.biaya[i].v = v;
+                            })
+                          }
+                        />
+                      </td>
+                      <td className={td}>
+                        {delBtn(() =>
+                          upd((c) => {
+                            c.biaya.splice(i, 1);
+                          }),
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="mt-3">
+                {addBtn("+ Tambah biaya", () =>
+                  upd((c) => {
+                    c.biaya.push({ nama: "Biaya baru", v: 0 });
+                  }),
+                )}
+              </div>
+            </div>
+            <div className={card}>
+              <h3 className="font-extrabold text-brand-800 mb-3">
+                🔧 Penyusutan Alat
+              </h3>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs min-w-[600px]">
+                  <thead>
+                    <tr>
+                      {["Alat", "Harga beli", "Nilai sisa", "Umur (bln)", "Per bulan", ""].map(
+                        (h) => (
+                          <th key={h} className={th}>
+                            {h}
+                          </th>
+                        ),
+                      )}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {hpp.alat.map((a, i) => (
+                      <tr key={i} className="border-t border-slate-100">
+                        <td className={td}>
+                          <Txt
+                            v={a.nama}
+                            on={(v) =>
+                              upd((c) => {
+                                c.alat[i].nama = v;
+                              })
+                            }
+                          />
+                        </td>
+                        {["harga", "sisa", "umur"].map((f) => (
+                          <td key={f} className={td}>
+                            <Num
+                              v={a[f]}
+                              on={(v) =>
+                                upd((c) => {
+                                  c.alat[i][f] = v;
+                                })
+                              }
+                            />
+                          </td>
+                        ))}
+                        <td className={td}>{rpf(susut(a))}</td>
+                        <td className={td}>
+                          {delBtn(() =>
+                            upd((c) => {
+                              c.alat.splice(i, 1);
+                            }),
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="mt-3">
+                {addBtn("+ Tambah alat", () =>
+                  upd((c) => {
+                    c.alat.push({ nama: "Alat baru", harga: 0, sisa: 0, umur: 36 });
+                  }),
+                )}
+              </div>
+            </div>
+            <div className={card}>
+              <h3 className="font-extrabold text-brand-800 mb-3">
+                📦 Alokasi per Porsi
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+                <div>
+                  <label className="block text-[10px] font-bold uppercase text-slate-600 mb-1">
+                    Estimasi porsi terjual / bulan
+                  </label>
+                  <Num
+                    v={hpp.vol}
+                    on={(v) =>
+                      upd((c) => {
+                        c.vol = v;
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase text-slate-500">
+                    Total biaya bulanan
+                  </p>
+                  <p className="text-lg font-extrabold text-brand-800">
+                    {rpf(totalOps)}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase text-slate-500">
+                    Overhead per porsi
+                  </p>
+                  <p className="text-lg font-extrabold text-brand-800">
+                    {rpf(overhead)}
+                  </p>
+                </div>
+              </div>
+              <p className="text-[11px] text-slate-500 mt-2">
+                Pakai angka konservatif, misalnya rata-rata 3 bulan terakhir.
+              </p>
+            </div>
+          </div>
+        );
+
+        const viewSim = (
+          <div className="space-y-6">
+            <div className={card}>
+              <h3 className="font-extrabold text-brand-800 mb-1">
+                🔮 Simulasi Kenaikan Harga Bahan
+              </h3>
+              <p className="text-xs text-slate-500 mb-3">
+                Coba "bagaimana jika harga bahan naik/turun". Isi % global, atau
+                override per bahan dalam % atau Rupiah (Rp = kenaikan/penurunan harga beli per kemasan, boleh minus). Kosong = ikut global. Data asli tidak berubah.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="sm:col-span-2 lg:col-span-3">
+                  <label className="block text-[10px] font-bold uppercase text-slate-600 mb-1">
+                    Perubahan harga semua bahan (%)
+                  </label>
+                  <Num v={sim.g} on={(v) => setSim({ ...sim, g: v })} />
+                </div>
+                {hpp.bahan.map((b) => {
+                  const v = sim.per[b.id];
+                  const has = v !== undefined && v !== "";
+                  const mode = sim.mode[b.id] || "%";
+                  return (
+                    <div key={b.id} className="bg-slate-50 border border-slate-200 rounded-2xl p-3">
+                      <label className="block text-[11px] font-bold text-slate-700 mb-1 truncate">{b.nama}</label>
+                      <div className="flex gap-1.5">
+                        <input
+                          type="number"
+                          step="any"
+                          placeholder={mode === "%" ? String(nm(sim.g)) : "0"}
+                          value={v ?? ""}
+                          onChange={(e) => setSim({ ...sim, per: { ...sim.per, [b.id]: e.target.value } })}
+                          className={inCls + " text-right"}
+                        />
+                        <select
+                          value={mode}
+                          onChange={(e) => setSim({ ...sim, mode: { ...sim.mode, [b.id]: e.target.value } })}
+                          className={inCls + " !w-20 !min-w-[64px]"}
+                        >
+                          <option value="%">%</option>
+                          <option value="Rp">Rp</option>
+                        </select>
+                      </div>
+                      <p className="text-[10px] text-slate-500 mt-1">
+                        Harga beli {rpf(nm(b.harga))} → <b>{rpf(simHarga(b))}</b>
+                        {has && mode === "Rp" ? ` (${nm(v) >= 0 ? "+" : "-"}${rpf(Math.abs(nm(v)))})` : ""}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className={card}>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs min-w-[760px]">
+                  <thead>
+                    <tr>
+                      {["Menu", "HPP bahan kini", "HPP bahan simulasi", "Selisih", "Food cost baru", "Laba bersih baru", "Harga jual disarankan"].map((h) => (
+                        <th key={h} className={th}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rows.map((x) => {
+                      const hs = recipeCostS(x.r) / (nm(x.r.hasil) || 1);
+                      const fc = x.jual ? (hs / x.jual) * 100 : 0;
+                      const net = x.jual * (1 - nm(hpp.qris) / 100) - (hs + overhead);
+                      return (
+                        <tr key={x.r.id} className="border-t border-slate-100">
+                          <td className={td + " font-bold"}>{x.m ? x.m.name : x.r.nama}</td>
+                          <td className={td}>{rpf(x.hb)}</td>
+                          <td className={td}>{rpf(hs)}</td>
+                          <td className={`${td} font-bold ${hs > x.hb ? "text-rose-600" : "text-emerald-600"}`}>
+                            {hs >= x.hb ? "+" : "-"}{rpf(Math.abs(hs - x.hb))}
+                          </td>
+                          <td className={td}>
+                            <span className={`px-2 py-0.5 rounded-full font-bold ${fc <= nm(hpp.fc) ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"}`}>
+                              {fc.toFixed(1).replace(".", ",")}%
+                            </span>
+                          </td>
+                          <td className={`${td} font-bold ${net >= 0 ? "text-emerald-600" : "text-rose-600"}`}>{rpf(net)}</td>
+                          <td className={td}>{rpf(up500(hs / (nm(hpp.fc) / 100 || 1)))}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        );
+
+        const subs = [
+          ["harga", "💰 Harga & Laba"],
+          ["sim", "🔮 Simulasi"],
+          ["bahan", "🥛 Bahan"],
+          ["resep", "📋 Resep"],
+          ["ops", "🏠 Operasional"],
+        ];
+        return (
+          <div className="space-y-6">
+            <div className="bg-brand-800 rounded-3xl p-6 text-white shadow-xl">
+              <h2 className="text-xl font-extrabold">🧮 Kalkulator HPP</h2>
+              <p className="text-brand-100 text-sm mt-1">
+                Hitung HPP presisi dari harga bahan per gram/ml/pcs, lalu
+                terapkan ke menu.
+              </p>
+            </div>
+            <div className="flex gap-2 overflow-x-auto">
+              {subs.map(([k, l]) => (
+                <button
+                  key={k}
+                  onClick={() => setSub(k)}
+                  className={`px-4 py-2 rounded-full text-xs font-bold border whitespace-nowrap ${sub === k ? "bg-brand-800 text-white border-brand-800" : "bg-white text-slate-700 border-slate-200"}`}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
+            {sub === "harga" && viewHarga}
+            {sub === "bahan" && viewBahan}
+            {sub === "resep" && viewResep}
+            {sub === "sim" && viewSim}
+            {sub === "ops" && viewOps}
+          </div>
+        );
+      }
+
+      const container = document.getElementById("root");
+      const root = ReactDOM.createRoot(container);
+      root.render(<App />);
+    </script>
+  </body>
+</html>
